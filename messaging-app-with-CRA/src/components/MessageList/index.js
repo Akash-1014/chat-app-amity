@@ -11,19 +11,21 @@ export function MessageList({ channelId }) {
   const collection = useRef();
 
   useEffect(() => {
-    collection.current = MessageRepository.queryMessages({
-      channelId,
-    });
+    if (channelId) {
+      collection.current = MessageRepository.queryMessages({
+        channelId,
+      });
 
-    collection.current.on("dataUpdated", (messages) => {
-      setMessages(messages.reverse());
-    });
+      collection.current.on("dataUpdated", (messages) => {
+        setMessages(messages.reverse());
+      });
 
-    if (collection.current.models) {
-      setMessages(collection.current.models.reverse());
+      if (collection.current.models) {
+        setMessages(collection.current.models.reverse());
+      }
     }
 
-    return () => collection.current.dispose();
+    // return () => collection.current.dispose();
   }, [channelId]);
 
   const onScroll = (e) => {

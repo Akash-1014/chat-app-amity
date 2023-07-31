@@ -1,10 +1,10 @@
 import ASCClient, { ConnectionStatus, ApiEndpoint } from "@amityco/js-sdk";
 
 // Amity sample-app apiKey
-const apiKey = "b3bee90c39d9a5644831d84e5a0d1688d100ddebef3c6e78";
+const apiKey = "b0e8bb583e88a5374e308415550810dcd30888e4ec346e2a";
 export const client = ASCClient.create({ apiKey, apiEndpoint: ApiEndpoint.SG });
 
-export let currentUserId = null;
+export let currentUserId = 13;
 
 // promisified client connection
 export const connectClient = async (userId) => {

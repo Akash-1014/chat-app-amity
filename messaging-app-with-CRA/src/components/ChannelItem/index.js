@@ -6,7 +6,7 @@ import { Image } from "../Image";
 import { MemberIcon } from "../Icons";
 
 export function ChannelItem({
-  channelId,
+  userId,
   displayName,
   avatarFileId,
   lastActivity,
@@ -18,16 +18,16 @@ export function ChannelItem({
   return (
     <div
       className={`ChannelItem ${active ? "active" : ""}`}
-      onClick={() => onClick(channelId)}
+      onClick={() => onClick(userId)}
     >
       <div className="Avatar">
         {avatarFileId && <Image fileId={avatarFileId} />}
       </div>
-      <div className="DisplayName">{displayName ?? channelId}</div>
+      <div className="DisplayName">{displayName}</div>
       <div className="Metadata">
-        {humanize(Date.now(), lastActivity)} • {memberCount} <MemberIcon />
+        {/* {humanize(Date.now(), lastActivity)} • {memberCount} <MemberIcon /> */}
       </div>
-      {!!unreadCount && <div className="UnreadCount">{unreadCount}</div>}
+      {/* {!!unreadCount && <div className="UnreadCount">{unreadCount}</div>} */}
     </div>
   );
 }

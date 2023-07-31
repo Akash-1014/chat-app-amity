@@ -19,12 +19,15 @@ export function App() {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
-    if (userId) onConnect(userId);
+    if (userId) onConnect("Akash");
+    else {
+      onConnect("Akash");
+    }
   }, []);
 
   return (
     <div className="app">
-      {!connected && !userId && <Login onConnect={onConnect} />}
+      {/* {!connected && !userId && <Login onConnect={onConnect} />} */}
       {connected && userId && <Main />}
     </div>
   );

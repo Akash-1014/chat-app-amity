@@ -1,7 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./index.css";
 
-import { ChannelRepository, ChannelFilter } from "@amityco/js-sdk";
+import {
+  ChannelRepository,
+  ChannelFilter,
+  UserRepository,
+} from "@amityco/js-sdk";
 
 import { ChannelItem } from "../ChannelItem";
 
@@ -14,22 +18,38 @@ export function ChannelList({
   const [top, setTop] = useState(true);
 
   const collection = useRef();
+  const makeSearchApi = (searchQuery) => {
+    try {
+      console.log("searching");
+      const liveUserCollection = UserRepository.queryUsers({
+        keyword: searchQuery,
+        // filter?: 'all' | 'flagged',
+        // sortBy?: 'lastCreated' | 'firstCreated' | 'displayName'
+      });
+      console.log("pass this");
 
+      liveUserCollection.on("dataUpdated", (models) => {
+        console.log("models: ", models);
+        setChannels(models);
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   useEffect(() => {
+    makeSearchApi(searchQuery);
     collection.current = ChannelRepository.queryChannels({
       keyword: searchQuery?.length ? searchQuery : undefined,
       filter: searchQuery ? ChannelFilter.All : ChannelFilter.Member,
     });
-
     collection.current.on("dataUpdated", setChannels);
-
     return () => collection.current.dispose();
   }, [searchQuery]);
 
   const onScroll = (e) => {
     setTop(e.target.scrollTop === 0);
 
-    if (!collection.current.hasMore) return;
+    if (!collection?.current.hasMore) return;
 
     const visibleHeight = e.target.scrollHeight - e.target.clientHeight;
 
@@ -42,7 +62,7 @@ export function ChannelList({
     <div className={`ChannelList ${top ? "top" : ""}`} onScroll={onScroll}>
       {channels.map((channel) => (
         <ChannelItem
-          key={channel.channelId}
+          key={channel.userID}
           {...channel}
           active={channel.channelId === activeChannelId}
           onClick={onClick}

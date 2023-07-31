@@ -33,12 +33,13 @@ export function ChatRoom({ channelId }) {
       document.removeEventListener(visibilityEvent, refreshKey);
     };
   });
+  console.log({ channelId });
 
   return (
     <div key={key} className="ChatRoom">
       <ChannelHeader channelId={channelId} />
       <MessageList channelId={channelId} />
-      <MessageComposer channelId={channelId} />
+      {/* <MessageComposer channelId={channelId} /> */}
     </div>
   );
 }

@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
-import { ChannelRepository } from "@amityco/js-sdk";
+import { ChannelRepository, ChannelType } from "@amityco/js-sdk";
 
 import { MemberIcon } from "../Icons";
 
 export function ChannelHeader({ channelId }) {
   const [channel, setChannel] = useState();
-
+  console.log(channelId);
   useEffect(() => {
-    const liveObject = ChannelRepository.getChannel(channelId);
-
-    liveObject.on("dataUpdated", setChannel);
-    liveObject.model && setChannel(liveObject.model);
-
-    return () => liveObject.dispose();
+    // const liveObject = ChannelRepository.getChannel(channelId);
+    // liveObject.on("dataUpdated", setChannel);
+    // liveObject.model && setChannel(liveObject.model);
+    // return () => liveObject.dispose();
   }, [channelId]);
-
+  const handleSubmitForAcceChat = () => {
+    const liveChannel = ChannelRepository.createChannel({
+      type: ChannelType.Conversation,
+      userIds: [channelId],
+      displayName: `${channelId},${channelId}`,
+    });
+    liveChannel.once("dataUpdated", (data) => {
+      console.log("channel created", data);
+    });
+  };
+  useEffect(() => {
+    if (channelId) handleSubmitForAcceChat();
+  }, [channelId]);
   return (
     <div className="ChannelHeader">
       <h3>{channel?.displayName ?? channel?.channelId}</h3>

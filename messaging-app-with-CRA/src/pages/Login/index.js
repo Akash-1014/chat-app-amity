@@ -14,7 +14,7 @@ export function Login({ onConnect = () => {} }) {
   return (
     <div className="Login">
       <div className="Modal">
-        <Amity />
+        {/* <Amity /> */}
 
         <h1>Connect with your favorite people</h1>
 

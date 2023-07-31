@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import "./index.css";
 
 import { ChannelList } from "../ChannelList";
-
+import { AiOutlinePlus } from "react-icons/ai";
 export function ChannelBrowser({
   userId,
   activeChannelId,
@@ -20,10 +20,16 @@ export function ChannelBrowser({
     }, 200);
   };
 
+  const createChannel = () => {};
   return (
     <div className="ChannelBrowser">
       <div className="Header">
         <h2>Chats</h2>
+        <h4 onClick={createChannel}>
+          create Channel
+          <AiOutlinePlus />
+        </h4>
+
         <input
           type="search"
           name="search"
@@ -33,7 +39,7 @@ export function ChannelBrowser({
       </div>
 
       <ChannelList
-        activeChannelId={activeChannelId}
+        // activeChannelId={activeChannelId}
         searchQuery={searchQuery}
         onClick={onChange}
       />
