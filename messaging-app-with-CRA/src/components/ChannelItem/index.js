@@ -12,22 +12,23 @@ export function ChannelItem({
   lastActivity,
   memberCount,
   unreadCount,
+  channelId,
   active,
   onClick = () => {},
 }) {
   return (
     <div
       className={`ChannelItem ${active ? "active" : ""}`}
-      onClick={() => onClick(userId)}
+      onClick={() => onClick(userId || channelId)}
     >
       <div className="Avatar">
         {avatarFileId && <Image fileId={avatarFileId} />}
       </div>
       <div className="DisplayName">{displayName}</div>
       <div className="Metadata">
-        {/* {humanize(Date.now(), lastActivity)} • {memberCount} <MemberIcon /> */}
+        {humanize(Date.now(), lastActivity)} • {memberCount} <MemberIcon />
       </div>
-      {/* {!!unreadCount && <div className="UnreadCount">{unreadCount}</div>} */}
+      {!!unreadCount && <div className="UnreadCount">{unreadCount}</div>}
     </div>
   );
 }

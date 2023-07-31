@@ -7,7 +7,7 @@ import { MessageItem } from "../MessageItem";
 
 export function MessageList({ channelId }) {
   const [messages, setMessages] = useState([]);
-
+  console.log(channelId);
   const collection = useRef();
 
   useEffect(() => {
@@ -15,8 +15,9 @@ export function MessageList({ channelId }) {
       collection.current = MessageRepository.queryMessages({
         channelId,
       });
-
+      console.log("runs here");
       collection.current.on("dataUpdated", (messages) => {
+        console.log("message ", messages);
         setMessages(messages.reverse());
       });
 

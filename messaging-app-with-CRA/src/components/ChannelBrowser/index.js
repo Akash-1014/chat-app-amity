@@ -39,7 +39,7 @@ export function ChannelBrowser({
       </div>
 
       <ChannelList
-        // activeChannelId={activeChannelId}
+        activeChannelId={activeChannelId}
         searchQuery={searchQuery}
         onClick={onChange}
       />

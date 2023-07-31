@@ -7,7 +7,7 @@ import { MemberIcon } from "../Icons";
 
 export function ChannelHeader({ channelId }) {
   const [channel, setChannel] = useState();
-  console.log(channelId);
+
   useEffect(() => {
     // const liveObject = ChannelRepository.getChannel(channelId);
     // liveObject.on("dataUpdated", setChannel);
@@ -17,15 +17,16 @@ export function ChannelHeader({ channelId }) {
   const handleSubmitForAcceChat = () => {
     const liveChannel = ChannelRepository.createChannel({
       type: ChannelType.Conversation,
-      userIds: [channelId],
-      displayName: `${channelId},${channelId}`,
+      userIds: [channelId, "chandan"],
+      displayName: `test Channel`,
     });
     liveChannel.once("dataUpdated", (data) => {
       console.log("channel created", data);
     });
   };
+
   useEffect(() => {
-    if (channelId) handleSubmitForAcceChat();
+    // if (channelId) handleSubmitForAcceChat();
   }, [channelId]);
   return (
     <div className="ChannelHeader">

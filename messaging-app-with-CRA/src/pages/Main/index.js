@@ -26,12 +26,13 @@ export function Main() {
   //     await ChannelRepository.startReading(channelId);
   //   })();
   // }, [channelId]);
-
+  useEffect(() => {
+    setChannelId(channelId);
+  }, [channelId]);
   const handleChange = async (value) => {
-    console.log({ value });
-    try {
-      await ChannelRepository.stopReading(channelId);
-    } catch (err) {}
+    // try {
+    //   await ChannelRepository.stopReading(channelId);
+    // } catch (err) {}
 
     setChannelId(value);
   };

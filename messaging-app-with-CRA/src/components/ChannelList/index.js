@@ -18,31 +18,24 @@ export function ChannelList({
   const [top, setTop] = useState(true);
 
   const collection = useRef();
-  const makeSearchApi = (searchQuery) => {
-    try {
-      console.log("searching");
-      const liveUserCollection = UserRepository.queryUsers({
-        keyword: searchQuery,
-        // filter?: 'all' | 'flagged',
-        // sortBy?: 'lastCreated' | 'firstCreated' | 'displayName'
-      });
-      console.log("pass this");
-
-      liveUserCollection.on("dataUpdated", (models) => {
-        console.log("models: ", models);
-        setChannels(models);
-      });
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+  console.log({ ChannelFilter });
   useEffect(() => {
-    makeSearchApi(searchQuery);
+    const liveUserCollection = UserRepository.queryUsers({
+      keyword: searchQuery,
+      // filter?: 'all' | 'flagged',
+      // sortBy?: 'lastCreated' | 'firstCreated' | 'displayName'
+    });
+
+    liveUserCollection.on("dataUpdated", (models) => {
+      setChannels(models);
+    });
     collection.current = ChannelRepository.queryChannels({
       keyword: searchQuery?.length ? searchQuery : undefined,
       filter: searchQuery ? ChannelFilter.All : ChannelFilter.Member,
     });
-    collection.current.on("dataUpdated", setChannels);
+    collection.current.on("dataUpdated", (groups) => {
+      setChannels((prev) => [...groups, ...prev]);
+    });
     return () => collection.current.dispose();
   }, [searchQuery]);
 
@@ -62,9 +55,9 @@ export function ChannelList({
     <div className={`ChannelList ${top ? "top" : ""}`} onScroll={onScroll}>
       {channels.map((channel) => (
         <ChannelItem
-          key={channel.userID}
+          key={channel?.userID}
           {...channel}
-          active={channel.channelId === activeChannelId}
+          active={channel?.channelId === activeChannelId}
           onClick={onClick}
         />
       ))}
